@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Projekt_Rekrutajca.Models;
 
 namespace Projekt_Rekrutajca.Data
@@ -16,12 +17,19 @@ namespace Projekt_Rekrutajca.Data
         {
           List<City> cities = await  _context.Cities.ToListAsync();
             List<CityDto> cityDtos = new();
-            
+            if (cities.Count == 0)
+            {
+                throw new Exception();
+            }
+
             foreach (City c in cities)
             {
                 var veh =  await _context.Vehicles.Where(a => a.Min_Population < c.Population && a.Max_Population > c.Population).FirstAsync();
 
-
+                if (veh == null)
+                {
+                    throw new Exception();
+                }
                 cityDtos.Add(
                 new CityDto
 
@@ -48,11 +56,20 @@ namespace Projekt_Rekrutajca.Data
         public async Task<CityDto> GetCityDto(string name)
         {
             List<City> cities = await _context.Cities.Where(a=>a.Name == name).ToListAsync();
+
+            if(cities.Count == 0)
+            {
+                throw new  Exception();
+            }
             List<CityDto> cityDtos = new();
 
             foreach (City c in cities)
             {
                 var veh = _context.Vehicles.Where(a => a.Min_Population < c.Population && a.Max_Population > c.Population).First();
+                if(veh == null)
+                {
+                    throw new Exception();
+                }
              cityDtos.Add(   new CityDto
 
                 {
@@ -80,6 +97,8 @@ namespace Projekt_Rekrutajca.Data
 
             var vehicletemp = await _context.Vehicles.Where(a=>a.Vehicle_Name == name).FirstAsync();
 
+            if(vehicletemp == null) { throw new Exception(); }  
+
             Vehicle vehicle = new Vehicle
             {
                 Vehicle_Name = vehicletemp.Vehicle_Name,
@@ -88,6 +107,7 @@ namespace Projekt_Rekrutajca.Data
 
             };
             List<City> cities = await _context.Cities.Where(a=>vehicle.Min_Population<a.Population && vehicle.Max_Population > a.Population).ToListAsync();
+            if(cities.Count == 0) { throw new Exception(); }
             return cities;
         }
 

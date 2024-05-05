@@ -29,7 +29,7 @@ namespace Projekt_Rekrutajca.Data
                   
                     new VehicleWriteDto() { Id=1, Vehicle_Name = "Bicykle",Min_Population = 1, Max_Population = 1000},
                     new VehicleWriteDto() { Id =2, Vehicle_Name = "Tramp", Min_Population= 500000 , Max_Population = 700000 },
-                    new VehicleWriteDto() {Id=3,  Vehicle_Name = "Car", Min_Population = 1000000, Max_Population = 3000000 }
+                    new VehicleWriteDto() {Id=3,  Vehicle_Name = "Car", Min_Population = 1000000, Max_Population = 30000000 }
                 );
 
 

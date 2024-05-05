@@ -21,7 +21,14 @@ namespace Projekt_Rekrutajca.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult<CityDto>> GetCity(string name)
         {
-            return await _cityRepo.GetCityDto(name);
+            try
+            {
+                return await _cityRepo.GetCityDto(name);
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
         }
         [HttpPost("city")]
         public async Task<ActionResult> PostCity(City city)
@@ -39,15 +46,29 @@ namespace Projekt_Rekrutajca.Controllers
         [HttpGet("random")]
         public async Task<ActionResult<CityDto>> GetRandomCity()
         {
-            var cities =  await _cityRepo.GetCity();
-            return Ok(cities);
+            try
+            {
+                return Ok( await _cityRepo.GetCity());
+            }
+            catch(Exception ex)
+            {
+               return  NotFound();
+            }
+           
         }
 
         [HttpGet("by-vehicle")]
         public async Task<ActionResult<List<City>>> GetCitesByVehicle(string Vehicle_Name)
         {
-          var cities = _cityRepo.GetVihicle(Vehicle_Name);
-            return Ok(cities);
+            try
+            {
+                return Ok(_cityRepo.GetVihicle(Vehicle_Name));
+            }
+            catch
+            {
+
+               return NotFound(ModelState);
+            }
         }
     }
 }
