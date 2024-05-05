@@ -9,6 +9,7 @@ namespace Projekt_Rekrutajca.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [Range(1,1000)]
         public int Population { get; set; }
     }
 }
